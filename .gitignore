@@ -5,3 +5,6 @@
 /statistics
 /__pycache__
 /test.py
+/.vscode
+/graphics/layout_templates.py
+/graphics/data

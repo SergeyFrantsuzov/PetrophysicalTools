@@ -1,5 +1,6 @@
 # %%
 # from os import sep
+import json
 import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
@@ -23,7 +24,7 @@ def phi_perm_plot(df,**kwargs):
                         name=str(i)
                         ) for i in df[kwargs['color']].unique()]
     
-    print(data_temp)
+    # print(data_temp)
     phi_perm_fig = go.Figure(
         data=data_temp,
         layout=go.Layout(
@@ -134,11 +135,29 @@ def cp_sw_plot(df_cp,**kwargs):
     return cp_sw_fig
 
 # %%
+def plot_creation(df, **kwargs):
+    # plot_type: 'perm_phi', 'swirr_perm', 'swirr_phi', 'cp_sw', 'ri_sw', 'ff_phi' 
+    fileObject = open("layout_templates.json", "r")
+    jsonContent = fileObject.read()
+    layout_template = json.loads(jsonContent)
+    plot=phi_perm_plot(df,**kwargs)
+        
 
+    return plot
 # %%
 
 if __name__ == '__main__':
     print('Lib with plots')
-
-
-   
+    try:
+        df_1=pd.read_csv(r'data\data.csv', sep=';', header=0, encoding="utf-8")
+    except UnicodeDecodeError:
+        df_1=pd.read_csv(r'data\data.csv', sep=';', header=0, encoding="cp1251")
+    # "cp1251"
+# %%
+    fig=plot_creation(df_1, 
+        x_name='Porosity', 
+        y_name='Permeability_Kl',
+        x_range=[0,30],
+        y_range=[-3,3])
+    fig.show()
+# %%
