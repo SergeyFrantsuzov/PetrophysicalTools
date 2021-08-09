@@ -18,13 +18,18 @@ def phi_perm_plot(df,**kwargs):
                 y=df[kwargs['y_name']].values,
                 mode='markers',
                 name='All Data'
-                        )]
+                )
+            ]
     else:
-        data_temp=[go.Scatter(x=df[df[kwargs['color']]==i][kwargs['x_name']].values,
-                        y=df[df[kwargs['color']]==i][kwargs['y_name']].values,
-                        mode='markers',
-                        name=str(i)
-                        ) for i in df[kwargs['color']].unique()]
+        data_temp=[
+            go.Scatter(
+                x=df[df[kwargs['color']]==i][kwargs['x_name']].values,
+                y=df[df[kwargs['color']]==i][kwargs['y_name']].values,
+                mode='markers',
+                name=str(i)
+                ) 
+                for i in df[kwargs['color']].unique()
+            ]
     
     # print(data_temp)
     phi_perm_fig = go.Figure(
@@ -68,7 +73,8 @@ def cp_sw_plot(df_cp,**kwargs):
                 name=str(int(s))      
                 ) 
                 for w in df_cp[kwargs['wells']].unique() \
-                for s in df_cp[kwargs['sampleID']].unique()]
+                for s in df_cp[kwargs['sampleID']].unique()
+            ]
     # print(list(data_cp_temp))
     else:
         data_cp_temp=[
@@ -83,7 +89,8 @@ def cp_sw_plot(df_cp,**kwargs):
                 name=str(lgroup)+'_'+str(s),      
                 ) 
                 for i,lgroup in enumerate(df_cp[kwargs['legendgroup']].unique()) \
-                for s in df_cp[df_cp[kwargs['legendgroup']]==lgroup][kwargs['sampleID']].unique()]
+                for s in df_cp[df_cp[kwargs['legendgroup']]==lgroup][kwargs['sampleID']].unique()
+            ]
     #     data_temp=[]
     #     for i,lgroup in enumerate(df_cp[kwargs['legendgroup']].unique()):
     #         for s in df_cp[df[kwargs['legendgroup']]==lgroup][kwargs['sampleID']].unique():
@@ -101,12 +108,16 @@ def cp_sw_plot(df_cp,**kwargs):
         # data=[],
         data=list(data_cp_temp),
         layout=go.Layout(
-            title=dict(text='Pc-Water Saturation'),
-            xaxis=dict(title='Water Saturation, %',
-                    range=kwargs['x_range'],
-                    showline=True,
-                    linewidth=2,
-                    linecolor='#00008B'),
+            title=dict(
+                text='Pc-Water Saturation'
+                ),
+            xaxis=dict(
+                title='Water Saturation, %',
+                range=kwargs['x_range'],
+                showline=True,
+                linewidth=2,
+                linecolor='#00008B'
+                ),
             yaxis=dict(
                 # type='log',
                 title='Pc, atm',
@@ -193,9 +204,11 @@ def plot_creation(df, **kwargs):
 if __name__ == '__main__':
     print('Lib with plots')
     try:
-        df_1=pd.read_csv(r'data\data.csv', sep=';', header=0, encoding="utf-8")
+        df_1=pd.read_csv(r'data\data.csv', 
+                        sep=';', header=0, encoding="utf-8")
     except UnicodeDecodeError:
-        df_1=pd.read_csv(r'data\data.csv', sep=';', header=0, encoding="cp1251")
+        df_1=pd.read_csv(r'data\data.csv', 
+                        sep=';', header=0, encoding="cp1251")
     # "cp1251"
 # %%
     fig=plot_creation(df_1, 
