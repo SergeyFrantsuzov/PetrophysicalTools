@@ -160,34 +160,39 @@ def cp_sw_plot(df_cp,**kwargs):
 
 # %%
 def plot_data_creation(df, **kwargs):
-    if 'legendgroup' not in kwargs.keys():
-
-        data_cp_temp=[
-            go.Scatter(
-                x=df_cp[(df_cp[kwargs['wells']] == w) 
-                        & (df_cp[kwargs['sampleID']] == s)][kwargs['x_name']].values,
-                y=df_cp[(df_cp[kwargs['wells']] == w) 
-                        & (df_cp[kwargs['sampleID']] == s)][kwargs['y_name']].values,
-                mode='markers+lines',
-                name=str(int(s))      
-                ) 
-                for w in df_cp[kwargs['wells']].uniques() \
-                for s in df_cp[kwargs['sampleID']].unique()]
-    # print(list(data_cp_temp))
-    else:
-        data_cp_temp=[
-            go.Scatter(
-                x=df_cp[(df_cp[kwargs['legendgroup']] == lgroup) 
-                        & (df_cp[kwargs['sampleID']] == s)][kwargs['x_name']].values,
-                y=df_cp[(df_cp[kwargs['legendgroup']] == lgroup) 
-                        & (df_cp[kwargs['sampleID']] == s)][kwargs['y_name']].values,
-                mode='markers+lines',
-                marker=dict(color=colorsList[i]),
-                legendgroup=str(lgroup),
-                name=str(lgroup)+'_'+str(s),      
-                ) 
-                for i,lgroup in enumerate(df_cp[kwargs['legendgroup']].unique()) \
-                for s in df_cp[df_cp[kwargs['legendgroup']]==lgroup][kwargs['sampleID']].unique()]
+    if kwargs['plot_type']=='cp_sw_plot'
+        if 'legendgroup' not in kwargs.keys():
+            data_cp_temp=[
+                go.Scatter(
+                    x=df_cp[(df_cp[kwargs['wells']] == w) 
+                            & (df_cp[kwargs['sampleID']] == s)]\
+                            [kwargs['x_name']].values,
+                    y=df_cp[(df_cp[kwargs['wells']] == w) 
+                            & (df_cp[kwargs['sampleID']] == s)]\
+                            [kwargs['y_name']].values,
+                    mode='markers+lines',
+                    name=str(int(s))      
+                    ) 
+                    for w in df_cp[kwargs['wells']].uniques() \
+                    for s in df_cp[kwargs['sampleID']].unique()]
+        # print(list(data_cp_temp))
+        else:
+            data_cp_temp=[
+                go.Scatter(
+                    x=df_cp[(df_cp[kwargs['legendgroup']] == lgroup) 
+                            & (df_cp[kwargs['sampleID']] == s)]\
+                            [kwargs['x_name']].values,
+                    y=df_cp[(df_cp[kwargs['legendgroup']] == lgroup) 
+                            & (df_cp[kwargs['sampleID']] == s)]\
+                            [kwargs['y_name']].values,
+                    mode='markers+lines',
+                    marker=dict(color=colorsList[i]),
+                    legendgroup=str(lgroup),
+                    name=str(lgroup)+'_'+str(s),      
+                    ) 
+                    for i,lgroup in enumerate(df_cp[kwargs['legendgroup']].unique()) \
+                    for s in df_cp[df_cp[kwargs['legendgroup']]==lgroup]\
+                                    [kwargs['sampleID']].unique()]
     return data
 # %%
 def plot_creation(df, **kwargs):
