@@ -159,40 +159,70 @@ def cp_sw_plot(df_cp,**kwargs):
     return cp_sw_fig
 
 # %%
-def plot_data_creation(df, **kwargs):
-    if kwargs['plot_type']=='cp_sw_plot'
-        if 'legendgroup' not in kwargs.keys():
-            data_cp_temp=[
+def cp_plot_data_creation(df, **kwargs ):
+    if 'legendgroup' not in kwargs.keys():
+            data=[
                 go.Scatter(
-                    x=df_cp[(df_cp[kwargs['wells']] == w) 
-                            & (df_cp[kwargs['sampleID']] == s)]\
+                    x=df[(df[kwargs['wells']] == w) 
+                            & (df[kwargs['sampleID']] == s)]\
                             [kwargs['x_name']].values,
-                    y=df_cp[(df_cp[kwargs['wells']] == w) 
-                            & (df_cp[kwargs['sampleID']] == s)]\
+                    y=df[(df[kwargs['wells']] == w) 
+                            & (df[kwargs['sampleID']] == s)]\
                             [kwargs['y_name']].values,
                     mode='markers+lines',
                     name=str(int(s))      
                     ) 
-                    for w in df_cp[kwargs['wells']].uniques() \
-                    for s in df_cp[kwargs['sampleID']].unique()]
-        # print(list(data_cp_temp))
+                    for w in df[kwargs['wells']].uniques() \
+                    for s in df[kwargs['sampleID']].unique()]
+        # print(list(data))
         else:
-            data_cp_temp=[
+            data=[
                 go.Scatter(
-                    x=df_cp[(df_cp[kwargs['legendgroup']] == lgroup) 
-                            & (df_cp[kwargs['sampleID']] == s)]\
+                    x=df[(df[kwargs['legendgroup']] == lgroup) 
+                            & (df[kwargs['sampleID']] == s)]\
                             [kwargs['x_name']].values,
-                    y=df_cp[(df_cp[kwargs['legendgroup']] == lgroup) 
-                            & (df_cp[kwargs['sampleID']] == s)]\
+                    y=df[(df[kwargs['legendgroup']] == lgroup) 
+                            & (df[kwargs['sampleID']] == s)]\
                             [kwargs['y_name']].values,
                     mode='markers+lines',
                     marker=dict(color=colorsList[i]),
                     legendgroup=str(lgroup),
                     name=str(lgroup)+'_'+str(s),      
                     ) 
-                    for i,lgroup in enumerate(df_cp[kwargs['legendgroup']].unique()) \
-                    for s in df_cp[df_cp[kwargs['legendgroup']]==lgroup]\
+                    for i,lgroup in enumerate(df[kwargs['legendgroup']].unique()) \
+                    for s in df[df[kwargs['legendgroup']]==lgroup]\
                                     [kwargs['sampleID']].unique()]
+    return data
+
+def perm_phi_plot_data_creation(df, **kwargs):
+    if 'color' not in kwargs.keys():
+        data=[
+            go.Scatter(
+                x=df[kwargs['x_name']].values,
+                y=df[kwargs['y_name']].values,
+                mode='markers',
+                name='All Data'
+                )
+            ]
+    else:
+        data=[
+            go.Scatter(
+                x=df[df[kwargs['color']]==i][kwargs['x_name']].values,
+                y=df[df[kwargs['color']]==i][kwargs['y_name']].values,
+                mode='markers',
+                name=str(i)
+                ) 
+                for i in df[kwargs['color']].unique()
+            ]
+    return data
+
+def swirr_perm_plot_data_creation(df, **kwargs):
+    return data
+
+def plot_data_creation(df, **kwargs):
+    
+    if kwargs['plot_type']=='cp_sw_plot'
+        
     return data
 # %%
 def plot_creation(df, **kwargs):
